@@ -35,19 +35,13 @@ module.exports = (sequelize, DataTypes) => {
   );
   Room.associate = (db) => {
     Room.hasMany(db.Booking, {
-      foreignkey: {
-        name: "roomId",
-        allowNull: false,
-      },
+      foreignkey: "roomId",
       onDelete: "Cascade",
       onUpdate: "Cascade",
     });
 
     Room.hasMany(db.RoomImg, {
-      foreignkey: {
-        name: "roomId",
-        allowNull: false,
-      },
+      foreignkey: "roomId",
       onDelete: "Cascade",
       onUpdate: "Cascade",
     });

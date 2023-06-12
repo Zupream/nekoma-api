@@ -1,7 +1,10 @@
-const { Room, Booking } = require("../models");
+const { Room, Booking, RoomImg } = require("../models");
 const { Op } = require("sequelize");
 
-exports.getAllRooms = () => Room.findAll();
+exports.getAllRooms = () =>
+  Room.findAll({
+    include: RoomImg,
+  });
 
 exports.getSearchRooms = async (checkIn, checkOut, petNumber) => {
   //   const checkIn = new Date(checkInDate);

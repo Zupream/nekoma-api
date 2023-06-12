@@ -32,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        default: false,
+      },
     },
     {
       underscored: true,
@@ -39,10 +44,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   User.associate = (db) => {
     User.hasMany(db.Booking, {
-      foreignkey: {
-        name: "userId",
-        allowNull: false,
-      },
+      foreignkey: "userId",
       onDelete: "Cascade",
       onUpdate: "Cascade",
     });

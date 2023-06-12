@@ -46,6 +46,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      roomId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       underscored: true,
@@ -53,18 +61,12 @@ module.exports = (sequelize, DataTypes) => {
   );
   Booking.associate = (db) => {
     Booking.belongsTo(db.User, {
-      foreignkey: {
-        name: "userId",
-        allowNull: false,
-      },
+      foreignkey: "userId",
       onDelete: "Cascade",
       onUpdate: "Cascade",
     }),
       Booking.belongsTo(db.Room, {
-        foreignkey: {
-          name: "roomId",
-          allowNull: false,
-        },
+        foreignkey: "roomId",
         onDelete: "Cascade",
         onUpdate: "Cascade",
       });

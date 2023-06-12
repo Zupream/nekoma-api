@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      roomId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       underscored: true,
@@ -16,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   RoomImg.associate = (db) => {
     RoomImg.belongsTo(db.Room, {
+      foreignkey: "roomId",
       onDelete: "Cascade",
       onUpdate: "Cascade",
     });
