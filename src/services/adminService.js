@@ -1,4 +1,4 @@
-const { Room, RoomImg } = require("../models");
+const { Room, RoomImg, Booking } = require("../models");
 
 exports.getAllRooms = () => Room.findAll();
 
@@ -26,3 +26,11 @@ exports.deleteRoom = (roomId) =>
   });
 
 exports.createRoomImages = (values) => RoomImg.bulkCreate(values);
+
+exports.getAllBooking = () => Booking.findAll();
+exports.updateBooking = (value, bookingId) =>
+  Booking.update(value, {
+    where: {
+      id: bookingId,
+    },
+  });

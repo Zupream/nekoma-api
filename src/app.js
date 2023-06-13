@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use("/auth", authRoute);
 app.use("/room", roomRoute);
-app.use("/booking", bookingRoute);
+app.use("/booking", authenticateMiddleware, bookingRoute);
 app.use("/admin", authenticateMiddleware, adminMiddleware, adminRoute);
 
 app.use(errorMiddleware);

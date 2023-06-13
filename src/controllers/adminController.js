@@ -2,15 +2,30 @@ const adminService = require("../services/adminService");
 const { checkString, checkNumber } = require("../utils/validate");
 const createError = require("../utils/createError");
 const uplodeService = require("../services/uploadService");
+const bookingService = require("../services/bookingService");
 const fs = require("fs");
 
-exports.getAllBooking = (req, res, next) => {
-  res.json({ msg: "test getAllBooking" });
-};
-exports.updateStatusBooking = (req, res, next) => {
-  res.json({ msg: "test updateStatusBooking" });
+exports.getAllBooking = async (req, res, next) => {
+  const allBooking = await adminService.getAllBooking();
+  res.json({ allBooking });
 };
 
+exports.updateStatusBooking = async (req, res, next) => {
+  const { bookingStatus, bookingId } = req.params;
+
+  const value = {
+    paymentStatus:
+      bookingStatus !== "REJECT" && bookingStatus !== "CONFIRM"
+        ? undefined
+        : bookingStatus,
+  };
+
+  console.log(bookingStatus);
+  const booking = await adminService.updateBooking(value, bookingId);
+
+  res.json({ booking });
+};
+// ดึงข้อมูลทุกห้องในหน้าแก้ไข
 exports.getAllRoom = async (req, res, next) => {
   try {
     const allRoom = await adminService.getAllRooms();
@@ -19,7 +34,7 @@ exports.getAllRoom = async (req, res, next) => {
     next(error);
   }
 };
-
+// เพิ่มห้อง
 exports.createRoom = async (req, res, next) => {
   try {
     const createRoom = await adminService.createRoom();
@@ -28,6 +43,7 @@ exports.createRoom = async (req, res, next) => {
     next(error);
   }
 };
+// ลบห้อง
 exports.deleteRoom = async (req, res, next) => {
   try {
     const { roomId } = req.params;
@@ -38,6 +54,7 @@ exports.deleteRoom = async (req, res, next) => {
     next(error);
   }
 };
+// อัพเดตรูปห้อง
 exports.updateImgDetail = async (req, res, next) => {
   try {
     if (req.files.length > 0) {
@@ -72,7 +89,7 @@ exports.updateImgDetail = async (req, res, next) => {
     }
   }
 };
-
+// อัพเดตรูปปกห้อง
 exports.updateImgCover = async (req, res, next) => {
   try {
     if (req.file) {
@@ -91,7 +108,7 @@ exports.updateImgCover = async (req, res, next) => {
     fs.unlinkSync(req.file.path);
   }
 };
-
+// อัพเดตรูปไทป์ห้อง
 exports.updateImgType = async (req, res, next) => {
   try {
     if (req.file) {
@@ -113,7 +130,7 @@ exports.updateImgType = async (req, res, next) => {
     fs.unlinkSync(req.file.path);
   }
 };
-
+// อัพเดตรายละเอียดห้อง
 exports.updateRoomDetail = async (req, res, next) => {
   const { typeRoom, maxPet, price, roomDetail } = req.body;
 
@@ -133,6 +150,7 @@ exports.updateRoomDetail = async (req, res, next) => {
   res.json({ updatedRoom });
 };
 
+// ดีงข้อมูลรายห้องเพื่อจะกดอัพเดต
 exports.getRoomId = async (req, res, next) => {
   try {
     const { roomId } = req.params;
@@ -146,7 +164,7 @@ exports.getRoomId = async (req, res, next) => {
     next(error);
   }
 };
-
+// ลบรูปรายละเอียดห้อง
 exports.deleteImgRoom = (req, res, next) => {
   res.json({ msg: "test deleteImgRoom" });
 };

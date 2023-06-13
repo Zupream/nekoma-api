@@ -13,3 +13,9 @@ exports.checkNumber = (value) => {
 
   return value;
 };
+
+exports.checkTime = (value) => {
+  const dateObj = new Date(value);
+  if (isNaN(dateObj.getTime())) return;
+  return dateObj;
+};

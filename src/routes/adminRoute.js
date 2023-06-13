@@ -19,13 +19,13 @@ router.get("/allRoom", adminController.getAllRoom);
 router.post("/add", adminController.createRoom);
 // กดลบห้อง ok
 router.delete("/delete/:roomId", adminController.deleteRoom);
-// กดแอดรูปรายละเอียดห้อง
+// กดแอดรูปรายละเอียดห้อง ok
 router.patch(
   "/room/:roomId/imagesDetail",
   upload.array("images", 10),
   adminController.updateImgDetail
 );
-// กดแอดรูปปกห้อง
+// กดแอดรูปปกห้อง ok
 router.patch(
   "/room/:roomId/imagesCover",
   upload.single("image"),
