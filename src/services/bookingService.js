@@ -5,7 +5,7 @@
 //         id: roomId
 //     }
 // })
-const { Booking } = require("../models");
+const { Booking, User, Room } = require("../models");
 exports.createBooking = (value) => Booking.create(value);
 
 exports.updateBooking = (bookingId, value) =>
@@ -18,8 +18,9 @@ exports.updateBooking = (bookingId, value) =>
 exports.getAllMyBooking = (userId) =>
   Booking.findAll({
     where: {
-      id: userId,
+      userId,
     },
+    include: [{ model: Room }],
   });
 
 exports.deleteMyBooking = (bookingId) =>
@@ -34,4 +35,8 @@ exports.getBookingById = (bookingId) =>
     where: {
       id: bookingId,
     },
+    include: [
+      { model: User, attributes: { exclude: ["password"] } },
+      { model: Room },
+    ],
   });

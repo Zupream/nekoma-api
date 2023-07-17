@@ -16,6 +16,7 @@ exports.getRoombyId = (roomId) =>
     where: {
       id: roomId,
     },
+    include: { model: RoomImg },
   });
 
 exports.deleteRoom = (roomId) =>
@@ -27,10 +28,25 @@ exports.deleteRoom = (roomId) =>
 
 exports.createRoomImages = (values) => RoomImg.bulkCreate(values);
 
-exports.getAllBooking = () => Booking.findAll();
+exports.getAllBooking = () =>
+  Booking.findAll({
+    where: {
+      paymentStatus: "PENDING",
+    },
+    include: {
+      model: Room,
+    },
+  });
 exports.updateBooking = (value, bookingId) =>
   Booking.update(value, {
     where: {
       id: bookingId,
+    },
+  });
+
+exports.deleteImgDetail = (imageId) =>
+  RoomImg.destroy({
+    where: {
+      id: imageId,
     },
   });

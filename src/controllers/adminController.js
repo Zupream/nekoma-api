@@ -85,7 +85,9 @@ exports.updateImgDetail = async (req, res, next) => {
     next(error);
   } finally {
     for (let image of req.files) {
-      fs.unlinkSync(image.path);
+      if (image) {
+        fs.unlinkSync(image.path);
+      }
     }
   }
 };
@@ -105,7 +107,9 @@ exports.updateImgCover = async (req, res, next) => {
   } catch (error) {
     next(error);
   } finally {
-    fs.unlinkSync(req.file.path);
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
   }
 };
 // อัพเดตรูปไทป์ห้อง
@@ -127,7 +131,9 @@ exports.updateImgType = async (req, res, next) => {
   } catch (error) {
     next(error);
   } finally {
-    fs.unlinkSync(req.file.path);
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
   }
 };
 // อัพเดตรายละเอียดห้อง
@@ -165,6 +171,13 @@ exports.getRoomId = async (req, res, next) => {
   }
 };
 // ลบรูปรายละเอียดห้อง
-exports.deleteImgRoom = (req, res, next) => {
-  res.json({ msg: "test deleteImgRoom" });
+exports.deleteImgRoom = async (req, res, next) => {
+  const { imageId } = req.params;
+
+  if (!imageId) {
+    return createError("image id to be provided");
+  }
+
+  await adminService.deleteImgDetail(imageId);
+  res.json({ msg: "Deleted successfully" });
 };

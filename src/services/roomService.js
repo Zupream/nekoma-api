@@ -109,4 +109,7 @@ exports.getRoomDetail = (roomId) =>
     where: {
       id: roomId,
     },
+    include: {
+      model: RoomImg,
+    },
   });
